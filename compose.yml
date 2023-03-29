@@ -10,6 +10,8 @@ services:
     profiles:
       - dev
     entrypoint: ["npm", "run", "dev"]
+    depends_on:
+      - backend-dev
 
   frontend:
     build:
@@ -29,11 +31,15 @@ services:
     entrypoint: "npm run dev"
     profiles:
       - dev
+    depends_on:
+      - db
 
   backend:
     build: ./backend
     profiles:
       - prod
+    depends_on:
+      - db
 
   nginx-dev:
     image: nginx:1.23.4-alpine
@@ -46,3 +52,18 @@ services:
       - backend-dev
     profiles:
       - dev
+
+  db:
+    image: postgres:15
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: supersecretpasswordplsdontsteal
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+
+volumes:
+  db-data:
