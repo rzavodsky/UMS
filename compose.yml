@@ -1,0 +1,48 @@
+name: ums
+services:
+  frontend-dev:
+    image: node:19-alpine
+    volumes:
+      - "./frontend:/home/node/app"
+    ports:
+      - 3000:3000
+    working_dir: /home/node/app
+    profiles:
+      - dev
+    entrypoint: ["npm", "run", "dev"]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    profiles:
+      - prod
+
+  backend-dev:
+    build: ./backend
+    volumes:
+      - "./backend:/home/node/app:ro"
+    entrypoint: "npm run dev"
+    profiles:
+      - dev
+
+  backend:
+    build: ./backend
+    profiles:
+      - prod
+
+  nginx-dev:
+    image: nginx:1.23.4-alpine
+    volumes:
+      - "./nginx-dev.conf:/etc/nginx/conf.d/default.conf:ro"
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend-dev
+      - backend-dev
+    profiles:
+      - dev
