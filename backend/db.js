@@ -118,4 +118,4 @@ Lesson.belongsTo(Person, { as: 'teacher' })
 Lesson.belongsTo(Classroom)
 Lesson.belongsTo(StudentGroup)
 
-await sequelize.sync({force: true})
+// await sequelize.sync({alter: true})
