@@ -3,6 +3,7 @@ import { ValidationError } from 'express-json-validator-middleware'
 import country from './endpoints/country.js'
 import city from './endpoints/city.js'
 import classroom from './endpoints/classroom.js'
+import degree_type from './endpoints/degree_type.js'
 
 const port = 3000
 const app = express()
@@ -11,6 +12,7 @@ const router = express.Router()
 router.use(country)
 router.use(city)
 router.use(classroom)
+router.use(degree_type)
 
 app.use(json())
 app.use('/api', router)
