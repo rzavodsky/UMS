@@ -1,5 +1,7 @@
 import express, { json } from 'express'
 import { ValidationError } from 'express-json-validator-middleware'
+import { ForeignKeyConstraintError } from 'sequelize'
+
 import country from './endpoints/country.js'
 import city from './endpoints/city.js'
 import classroom from './endpoints/classroom.js'
@@ -25,6 +27,11 @@ app.use('/api', router)
 app.use((err, _req, res, next) => {
     if (err instanceof ValidationError) {
         res.status(400).send(err.validationErrors)
+        next()
+    } else if (err instanceof ForeignKeyConstraintError) {
+        res.status(400).json({
+            error: err.original.detail
+        })
         next()
     } else {
         next(err)
