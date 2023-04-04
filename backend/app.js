@@ -11,6 +11,7 @@ router.use(country)
 app.use(json())
 app.use('/api', router)
 
+// Error Handler
 app.use((err, _req, res, next) => {
     if (err instanceof ValidationError) {
         res.status(400).send(err.validationErrors)
@@ -18,6 +19,13 @@ app.use((err, _req, res, next) => {
     } else {
         next(err)
     }
+})
+
+// 404 Handler
+app.use((_req, res, _next) => {
+    res.status(404).json({
+        error: "Not Found"
+    })
 })
 
 app.listen(port, () => {
