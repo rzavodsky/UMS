@@ -1,12 +1,14 @@
 import express, { json } from 'express'
 import { ValidationError } from 'express-json-validator-middleware'
 import country from './endpoints/country.js'
+import city from './endpoints/city.js'
 
 const port = 3000
 const app = express()
 const router = express.Router()
 
 router.use(country)
+router.use(city)
 
 app.use(json())
 app.use('/api', router)
