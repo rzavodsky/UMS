@@ -30,6 +30,7 @@ export const DegreeType = sequelize.define('DegreeType', {
 export const Faculty = sequelize.define('Faculty', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     name: DataTypes.STRING,
+    shortcut: DataTypes.STRING(5),
     description: DataTypes.TEXT,
 })
 
