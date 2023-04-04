@@ -4,6 +4,7 @@ import country from './endpoints/country.js'
 import city from './endpoints/city.js'
 import classroom from './endpoints/classroom.js'
 import degree_type from './endpoints/degree_type.js'
+import faculty from './endpoints/faculty.js'
 
 const port = 3000
 const app = express()
@@ -13,6 +14,7 @@ router.use(country)
 router.use(city)
 router.use(classroom)
 router.use(degree_type)
+router.use(faculty)
 
 app.use(json())
 app.use('/api', router)
