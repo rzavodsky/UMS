@@ -34,17 +34,50 @@ app.use(json())
 app.use('/api', router)
 
 // Error Handler
-app.use((err, _req, res, next) => {
+app.use((err, _req, res, _next) => {
     if (err instanceof ValidationError) {
-        res.status(400).send(err.validationErrors)
-        next()
+        res.status(400).json({
+            error: 'Validation Error',
+            messages: err.validationErrors.body.map(verr => {
+                if (verr.keyword === 'additionalProperties') {
+                    return {
+                        message: `Body must NOT contain additional property '${verr.params.additionalProperty}'`,
+                        key: verr.params.additionalProperty,
+                    }
+                } else if (verr.keyword === 'required') {
+                    return {
+                        message: `Body ${verr.message}`,
+                        key: verr.params.missingProperty,
+                    }
+                } else if (verr.keyword === 'enum') {
+                    return {
+                        key: verr.instancePath.substring(1),
+                        message: `${verr.instancePath.substring(1)} must be one of [${verr.params.allowedValues.join(', ')}]`
+                    }
+                } else {
+                    console.log(verr)
+                    return {
+                        message: `'${verr.instancePath.substring(1)}' ${verr.message}`,
+                        key: verr.instancePath.substring(1),
+                    }
+                }
+            }),
+        })
     } else if (err instanceof ForeignKeyConstraintError) {
         res.status(400).json({
-            error: err.original.detail
+            error: "Foreign Key Error",
+            message: err.original.detail,
         })
-        next()
+    } else if (err instanceof SyntaxError) {
+        res.status(400).json({
+            error: "Syntax Error",
+            message: err.message,
+        })
     } else {
-        next(err)
+        console.error(err)
+        res.status(500).json({
+            error: "Something went wrong."
+        })
     }
 })
 
