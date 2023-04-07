@@ -1,6 +1,6 @@
 import express, { json } from 'express'
 import { ValidationError } from 'express-json-validator-middleware'
-import { ForeignKeyConstraintError } from 'sequelize'
+import { ForeignKeyConstraintError, UniqueConstraintError } from 'sequelize'
 
 import country from './endpoints/country.js'
 import city from './endpoints/city.js'
@@ -38,6 +38,14 @@ app.use('/api', router)
 // Error Handler
 app.use((err, _req, res, _next) => {
     if (err instanceof ValidationError) {
+        if (err.validationErrors.query) {
+            res.status(400).json({
+                error: 'Validation error',
+                message: 'Invalid query parameters',
+            })
+            console.error(err.validationErrors.query)
+            return
+        }
         res.status(400).json({
             error: 'Validation Error',
             messages: err.validationErrors.body.map(verr => {
@@ -69,6 +77,11 @@ app.use((err, _req, res, _next) => {
         res.status(400).json({
             error: "Foreign Key Error",
             message: err.original.detail,
+        })
+    } else if (err instanceof UniqueConstraintError) {
+        res.status(400).json({
+            error: "Unique Constraint Error",
+            message: "Resource already exists",
         })
     } else if (err instanceof SyntaxError) {
         res.status(400).json({
