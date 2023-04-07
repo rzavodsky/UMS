@@ -12,6 +12,7 @@ import student_group from './endpoints/student_group.js'
 import subject from './endpoints/subject.js'
 import lesson from './endpoints/lesson.js'
 import teacher from './endpoints/teacher.js'
+import student from './endpoints/student.js'
 
 const port = 3000
 const app = express()
@@ -27,6 +28,7 @@ router.use(student_group)
 router.use(subject)
 router.use(lesson)
 router.use(teacher)
+router.use(student)
 
 app.use(json())
 app.use('/api', router)
