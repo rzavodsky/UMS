@@ -17,7 +17,7 @@ export const City = sequelize.define('City', {
 
 export const Classroom = sequelize.define('Classroom', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    name: DataTypes.STRING,
+    name: { type: DataTypes.STRING, unique: true },
 })
 
 export const DegreeType = sequelize.define('DegreeType', {
@@ -30,7 +30,7 @@ export const DegreeType = sequelize.define('DegreeType', {
 export const Faculty = sequelize.define('Faculty', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     name: DataTypes.STRING,
-    shortcut: DataTypes.STRING(5),
+    shortcut: { type: DataTypes.STRING(5), unique: true },
     description: DataTypes.TEXT,
 })
 
@@ -61,7 +61,7 @@ export const Person = sequelize.define('Person', {
     studentCredits: DataTypes.INTEGER,
     birthDate: DataTypes.DATEONLY,
     gender: DataTypes.STRING,
-    loginUsername: DataTypes.STRING,
+    loginUsername: { type: DataTypes.STRING, unique: true },
     loginPassword: DataTypes.STRING,
     isTeacher: DataTypes.BOOLEAN,
 })
@@ -69,6 +69,8 @@ export const Person = sequelize.define('Person', {
 export const StudentSubject = sequelize.define('StudentSubject', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     grade: DataTypes.STRING,
+}, {
+    indexes: [{ unique: true, fields: ['PersonId', 'SubjectId'] }]
 })
 
 export const Lesson = sequelize.define('Lesson', {
