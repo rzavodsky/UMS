@@ -1,10 +1,8 @@
 import { Router } from 'express'
-import { validateIdParams } from '../validation.js'
-import { Validator } from 'express-json-validator-middleware'
+import { validateIdParams, validate } from '../validation.js'
 import { Country, City } from '../db.js'
 
 const router = Router()
-const { validate } = new Validator()
 
 const schema = {
     type: 'object',
