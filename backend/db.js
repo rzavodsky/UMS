@@ -90,7 +90,7 @@ DegreeType.hasMany(Programme)
 
 Faculty.hasMany(Subject)
 Faculty.hasMany(Programme)
-Faculty.hasMany(Person, { foreignKey: 'teacherFacultyId' })
+Faculty.hasMany(Person, { foreignKey: 'TeacherFacultyId' })
 
 Programme.hasMany(StudentGroup)
 Programme.belongsTo(Faculty)
@@ -105,16 +105,16 @@ Subject.hasMany(Lesson)
 Subject.belongsTo(Faculty)
 
 Person.hasMany(StudentSubject)
-Person.hasMany(Lesson, { foreignKey: 'teacherId' })
+Person.hasMany(Lesson, { foreignKey: 'TeacherId' })
 Person.belongsTo(StudentGroup)
-Person.belongsTo(Faculty, { as: 'teacherFaculty' })
+Person.belongsTo(Faculty, { as: 'TeacherFaculty' })
 Person.belongsTo(City)
 
 StudentSubject.belongsTo(Person)
 StudentSubject.belongsTo(Subject)
 
 Lesson.belongsTo(Subject)
-Lesson.belongsTo(Person, { as: 'teacher' })
+Lesson.belongsTo(Person, { as: 'Teacher' })
 Lesson.belongsTo(Classroom)
 Lesson.belongsTo(StudentGroup)
 
