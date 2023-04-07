@@ -10,6 +10,7 @@ import faculty from './endpoints/faculty.js'
 import programme from './endpoints/programme.js'
 import student_group from './endpoints/student_group.js'
 import subject from './endpoints/subject.js'
+import lesson from './endpoints/lesson.js'
 
 const port = 3000
 const app = express()
@@ -23,6 +24,7 @@ router.use(faculty)
 router.use(programme)
 router.use(student_group)
 router.use(subject)
+router.use(lesson)
 
 app.use(json())
 app.use('/api', router)
