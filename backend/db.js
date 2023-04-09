@@ -81,6 +81,16 @@ export const Lesson = sequelize.define('Lesson', {
     type: DataTypes.STRING,
 })
 
+export const Key = sequelize.define('Key', {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    expiresAt: DataTypes.DATE,
+    isAdmin: DataTypes.BOOLEAN,
+    isTeacher: DataTypes.BOOLEAN,
+    hashedKey: { type: DataTypes.STRING(64), unique: true },
+})
+Key.belongsTo(Person)
+Person.hasMany(Key)
+
 Country.hasMany(City, { onDelete: 'CASCADE'})
 
 City.hasMany(Person)
