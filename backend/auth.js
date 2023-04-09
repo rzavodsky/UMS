@@ -81,10 +81,10 @@ export function authMiddleware(skip_paths) {
  * Middleware, which makes a route only accessible to an admin.
  * This middleware needs to be after the `authMiddleware` middleware.
  */
-export function adminOnly(res, req, next) {
+export function adminOnly(req, res, next) {
     if (req.key.isAdmin) {
         next()
     } else {
-        res.status(402).end()
+        res.status(403).end()
     }
 }

@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
 import { Country } from '../db.js'
+import { adminOnly } from '../auth.js'
 
 const router = Router()
 
@@ -38,6 +39,7 @@ router.get('/countries/:id',
 
 // Create
 router.post('/countries',
+    adminOnly,
     validate({ body: { ...schema, required: schema_required } }),
     async (req, res) => {
         const data = await Country.create(req.body)
@@ -46,6 +48,7 @@ router.post('/countries',
 
 // Update
 router.patch('/countries/:id',
+    adminOnly,
     validate({ body: schema }),
     async (req, res) => {
         res.locals.data.set(req.body)
@@ -55,6 +58,7 @@ router.patch('/countries/:id',
 
 // Delete
 router.delete('/countries/:id',
+    adminOnly,
     async (_req, res) => {
         await res.locals.data.destroy()
         res.status(204).end() // No Content

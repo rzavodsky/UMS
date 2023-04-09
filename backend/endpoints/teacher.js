@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
 import { Person } from '../db.js'
 import { Op } from 'sequelize'
+import { adminOnly } from '../auth.js'
 
 const router = Router()
 
@@ -74,6 +75,7 @@ router.get('/teachers/:id',
 
 // Create
 router.post('/teachers',
+    adminOnly,
     validate({ body: schema }),
     async (req, res, next) => {
         const normalizedLastName = req.body.lastName
@@ -108,6 +110,7 @@ router.post('/teachers',
 
 // Update
 router.patch('/teachers/:id',
+    adminOnly,
     validate({ body: patch_schema }),
     async (req, res) => {
         // TODO: Check if password updated
@@ -118,6 +121,7 @@ router.patch('/teachers/:id',
 
 // Delete
 router.delete('/teachers/:id',
+    adminOnly,
     async (_req, res) => {
         await res.locals.data.destroy()
         res.status(204).end() // No Content
