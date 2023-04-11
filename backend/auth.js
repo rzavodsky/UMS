@@ -1,8 +1,11 @@
 import crypto from 'crypto'
 import { Op } from 'sequelize'
 import { Key, Person } from './db.js'
+import bcrypt from 'bcrypt'
 
 const KEY_LENGTH = 64
+const SALT_ROUNDS = 10
+export const PASSWORD_REGEX = "^[a-zA-Z0-9`~!@#$%^&*()_\\-=+'\"/?.>,<\\\\]{8,}$"
 
 /** How long should a key be valid for in milliseconds */
 const KEY_EXPIRY = 1000 * 60 * 60 * 1
@@ -99,4 +102,23 @@ export function adminOnly(req, res, next) {
     } else {
         res.status(403).end()
     }
+}
+
+/**
+ * Hashes a password for storage in a database.
+ * @param {string} password
+ * @return {Promise<string>} The hashed password as hex string
+ */
+export function hashPassword(password) {
+    return bcrypt.hash(password, SALT_ROUNDS)
+}
+
+/**
+ * Safely compares a password against a hash.
+ * @param {string} password - Plain text password to compare
+ * @param {string} hash - Hashed password to compare against
+ * @return {Promise<boolean>} Whether the password matches
+ */
+export function comparePassword(password, hash) {
+    return bcrypt.compare(password, hash)
 }

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
 import { Person } from '../db.js'
 import { Op } from 'sequelize'
-import { adminOnly } from '../auth.js'
+import { PASSWORD_REGEX, adminOnly, hashPassword } from '../auth.js'
 
 const router = Router()
 
@@ -100,7 +100,7 @@ router.post('/teachers',
         Person.create({
             ...req.body,
             loginUsername,
-            loginPassword: 'password',
+            loginPassword: await hashPassword('password'),
             TeacherFacultyId: req.body.FacultyId,
             isTeacher: true,
         })
