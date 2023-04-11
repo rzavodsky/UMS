@@ -26,13 +26,13 @@ const patch_schema = {
     properties: {
         firstName: { type: 'string', maxLength: 255 },
         lastName: { type: 'string', maxLength: 255 },
-        birthDate: { type: 'string' }, // TODO: Format date
         gender: { type: 'string' },
         CityId: { type: 'integer' },
         loginPassword: { type: 'string' },
         credits: { type: 'integer' },
         StudentGroupId: { type: 'integer' },
     }
+                birthDate: { type: 'string', format: 'date' },
 }
 
 function personToJson(person) {

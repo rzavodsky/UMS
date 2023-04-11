@@ -1,6 +1,9 @@
 import { Validator } from 'express-json-validator-middleware'
+import addFormats from 'ajv-formats'
 
-export const { validate } = new Validator({ allErrors: true })
+const validator = new Validator({ allErrors: true })
+addFormats(validator.ajv)
+export const validate = validator.validate
 
 /// A middleware, which tries to convert all params to integers.
 /// If any param can't be converted, sends a response with an error message.
