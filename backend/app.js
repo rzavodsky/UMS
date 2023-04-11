@@ -3,6 +3,7 @@ import { ValidationError } from 'express-json-validator-middleware'
 import { ForeignKeyConstraintError, UniqueConstraintError } from 'sequelize'
 import { authMiddleware } from './auth.js'
 
+import login from './endpoints/login.js'
 import country from './endpoints/country.js'
 import city from './endpoints/city.js'
 import classroom from './endpoints/classroom.js'
@@ -20,6 +21,7 @@ const port = 3000
 const app = express()
 const router = express.Router()
 
+router.use(login)
 router.use(country)
 router.use(city)
 router.use(classroom)
@@ -34,7 +36,7 @@ router.use(student)
 router.use(student_subject)
 
 app.use(json())
-app.use(authMiddleware([]))
+app.use(authMiddleware(['/api/login']))
 app.use('/api', router)
 
 // Error Handler

@@ -32,7 +32,7 @@ const patch_schema = {
                 birthDate: { type: 'string', format: 'date' },
 }
 
-function personToJson(person) {
+export function personToJson(person) {
     return {
         id: person.id,
         firstName: person.firstName,

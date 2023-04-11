@@ -67,7 +67,7 @@ async function getKeyFromDb(key) {
  */
 export function authMiddleware(skip_paths) {
     return async (req, res, next) => {
-        if (skip_routes.includes(req.path)) {
+        if (skip_paths.includes(req.path)) {
             next()
             return
         }

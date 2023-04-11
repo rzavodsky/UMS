@@ -29,6 +29,9 @@ services:
     volumes:
       - "./backend:/home/node/app:ro"
     entrypoint: "npm run dev"
+    environment:
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: admin
     profiles:
       - dev
     depends_on:
@@ -36,6 +39,9 @@ services:
 
   backend:
     build: ./backend
+    environment:
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: admin
     profiles:
       - prod
     depends_on:
