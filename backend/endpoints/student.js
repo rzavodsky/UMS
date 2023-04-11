@@ -21,18 +21,28 @@ const schema = {
     required: ['firstName', 'lastName', 'birthDate', 'gender', 'StudentGroupId', 'CityId', 'credits'],
 }
 const patch_schema = {
-    type: 'object',
-    additionalProperties: false,
-    properties: {
-        firstName: { type: 'string', maxLength: 255 },
-        lastName: { type: 'string', maxLength: 255 },
-        gender: { type: 'string' },
-        CityId: { type: 'integer' },
-        loginPassword: { type: 'string' },
-        credits: { type: 'integer' },
-        StudentGroupId: { type: 'integer' },
-    }
+    oneOf: [
+        {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                firstName: { type: 'string', maxLength: 255 },
+                lastName: { type: 'string', maxLength: 255 },
                 birthDate: { type: 'string', format: 'date' },
+                gender: { type: 'string' },
+                CityId: { type: 'integer' },
+                credits: { type: 'integer' },
+                StudentGroupId: { type: 'integer' },
+            }
+        },
+        {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                loginPassword: { type: 'string', pattern: PASSWORD_REGEX },
+            }
+        },
+    ]
 }
 
 export function personToJson(person) {
@@ -114,11 +124,22 @@ router.post('/students',
 
 // Update
 router.patch('/students/:id',
-    adminOnly,
     validate({ body: patch_schema }),
     async (req, res) => {
-        // TODO: Check if password updated
-        res.locals.data.set(req.body)
+        if (req.body.loginPassword !== undefined) {
+            if (!(req.key.isAdmin || req.key.PersonId == req.params.id)) {
+                res.status(403).end()
+                return
+            }
+            const hashedPwd = await hashPassword(req.body.loginPassword)
+            res.locals.data.loginPassword = hashedPwd
+        } else {
+            if (!req.key.isAdmin) {
+                res.status(403).end()
+                return
+            }
+            res.locals.data.set(req.body)
+        }
         await res.locals.data.save()
         res.json(personToJson(res.locals.data))
     })
