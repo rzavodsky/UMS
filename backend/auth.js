@@ -18,15 +18,27 @@ function hashKey(key) {
     return hash.digest('hex')
 }
 
+async function purgeExpiredKeys() {
+    await Key.destroy({
+        where: {
+            expiresAt: {
+                [Op.lt]: new Date()
+            }
+        }
+    })
+}
+
 /**
  * Creates a key for a specified user and stores it in the database.
+ * This function also purges all expired keys from the database.
  * @param {Person | 'admin'} user - The user for which the key should be created
  * @returns The created key
  */
-export function createNewKeyForUser(user) {
+export async function createNewKeyForUser(user) {
+    await purgeExpiredKeys()
     const key = generateKey()
     const isAdmin = user === 'admin'
-    Key.create({
+    await Key.create({
         isAdmin,
         isTeacher: isAdmin ? false : user.isTeacher,
         PersonId: isAdmin ? null : user.id,
