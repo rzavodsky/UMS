@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import { useLoginStore } from './stores/login'
 
-import './assets/main.css'
+import './assets/base.css'
 
 const app = createApp(App)
 
