@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterView, RouterLink } from 'vue-router'
+import LoginInfo from './components/LoginInfo.vue';
 import { useLoginStore } from './stores/login';
 const login = useLoginStore();
 </script>
@@ -11,6 +12,10 @@ const login = useLoginStore();
             <img class="logo-img" src="/logo_dark.png"/>
             <div class="logo-text">UMS</div>
         </div>
+        <template v-if="login.loggedIn">
+            <RouterLink to="rozvrh">Rozvrh</RouterLink>
+            <LoginInfo />
+        </template>
     </header>
     <main>
         <RouterView />
