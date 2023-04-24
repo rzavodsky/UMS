@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
-import { Person } from '../db.js'
+import { Person, Lesson, Subject, Classroom } from '../db.js'
 import { Op } from 'sequelize'
 import { adminOnly, hashPassword, PASSWORD_REGEX } from '../auth.js'
 
@@ -150,5 +150,19 @@ router.delete('/students/:id',
     async (_req, res) => {
         await res.locals.data.destroy()
         res.status(204).end() // No Content
+    })
+
+// Get timemtable
+router.get('/students/:id/lessons',
+    async (_req, res) => {
+        const lessons = await Lesson.findAll({
+            where: {
+                StudentGroupId: res.locals.data.StudentGroupId,
+            },
+            include: [Subject, { model: Person, as: 'Teacher' }, Classroom],
+        })
+        res.status(200).json({
+            data: lessons,
+        })
     })
 export default router
