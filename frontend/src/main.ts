@@ -11,6 +11,11 @@ const app = createApp(App)
 
 app.use(createPinia())
 const login = useLoginStore()
+const token = localStorage.getItem('token');
+if (token !== null) {
+    await login.setToken(token);
+}
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
