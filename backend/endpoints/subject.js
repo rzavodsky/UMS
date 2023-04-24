@@ -16,8 +16,9 @@ const schema = {
         credits: { type: 'integer' },
         semester: { type: 'integer' },
         description: { type: 'string', maxLength: 4096 },
+        shortcut: { type: 'string', maxLength: 10 },
     },
-    required: ['name', 'FacultyId', 'excerciseAmount', 'lectureAmount', 'credits', 'semester'],
+    required: ['name', 'FacultyId', 'excerciseAmount', 'lectureAmount', 'credits', 'semester', 'shortcut'],
 }
 const patch_schema = {
     type: 'object',

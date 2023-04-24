@@ -52,6 +52,7 @@ export const Subject = sequelize.define('Subject', {
     credits: DataTypes.INTEGER,
     semester: DataTypes.INTEGER,
     description: DataTypes.TEXT,
+    shortcut: DataTypes.STRING,
 })
 
 export const Person = sequelize.define('Person', {
