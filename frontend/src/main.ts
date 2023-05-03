@@ -26,6 +26,11 @@ const router = createRouter({
             component: Index,
         },
         { path: '/login', component: Login, name: 'login' },
+        {
+            path: '/rozvrh',
+            name: 'timetable',
+            component: () => import("@/views/Rozvrh.vue"),
+        }
     ]
 });
 router.beforeEach((to, _from) => {
