@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { api_fetch } from '@/api';
 import { useLoginStore } from '@/stores/login';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 
 const login = useLoginStore();
 const router = useRouter();
@@ -20,7 +20,8 @@ async function logout() {
         <div class="login-dropdown">
             <div>Študijná skupina: {{ login.user.StudentGroupId }}</div>
             <div>Osobné číslo: {{ login.user.id }}</div>
-            <button @click="logout">Odhlásiť sa</button>
+            <RouterLink class="button-secondary" to="heslo">Zmena hesla</RouterLink>
+            <button class="button-secondary" @click="logout">Odhlásiť sa</button>
         </div>
     </div>
 </template>
