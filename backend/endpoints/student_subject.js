@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
 
-import { StudentSubject } from '../db.js'
+import { StudentSubject, Person, Subject } from '../db.js'
 
 const router = Router()
 
@@ -50,13 +50,16 @@ router.get('/studentsubjects',
     }),
     async (req, res) => {
         const where_query = {}
+        let include = []
         if (req.query.SubjectId) {
             where_query.SubjectId = +req.query.SubjectId
+            include = [Person]
         }
         if (req.query.StudentId) {
             where_query.PersonId = +req.query.StudentId
+            include = [Subject]
         }
-        const data = await StudentSubject.findAll({ where: where_query})
+        const data = await StudentSubject.findAll({ where: where_query, include })
         res.json({ data: data })
     })
 
