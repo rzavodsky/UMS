@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import Login from './views/Login.vue'
+import Index from './views/Index.vue'
 import { useLoginStore } from './stores/login'
 
 import './assets/base.css'
@@ -22,15 +23,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => {
-                if (login.user?.isAdmin) {
-                    return import("@/views/Admin.vue")
-                } else if (login.user?.isTeacher) {
-                    return import("@/views/Teacher.vue")
-                } else {
-                    return import("@/views/Student.vue")
-                }
-            }
+            component: Index,
         },
         { path: '/login', component: Login, name: 'login' },
     ]
