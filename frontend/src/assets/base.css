@@ -30,3 +30,32 @@ a {
 .hover-underline:hover::after {
     width: 100%;
 }
+
+.button-primary {
+    display: block;
+    background-color: var(--blue-color);
+    font-size: inherit;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em;
+}
+
+.button-primary:hover {
+    filter: brightness(80%);
+}
+
+.button-secondary {
+    display: block;
+    background-color: transparent;
+    font-size: inherit;
+    cursor: pointer;
+    border: 1px solid var(--blue-color);
+    border-radius: 5px;
+    padding: 0.5em;
+}
+
+.button-secondary:hover {
+    background-color: var(--blue-color);
+    color: white;
+}

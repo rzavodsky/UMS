@@ -55,6 +55,7 @@ async function logout() {
     padding: 1em;
     transform: translate(0, -50%) scale(100%, 0);
     transition: transform 0.5s;
+    box-shadow: 0 0 10px black;
 }
 
 .login-info:hover .login-dropdown {
@@ -65,18 +66,9 @@ async function logout() {
     padding: 0.5em;
 }
 
-button {
-    background-color: transparent;
-    border: none;
-    font-size: inherit;
-    cursor: pointer;
+a, button {
     width: 100%;
     text-align: left;
-    border-radius: 5px;
-    border: 1px solid var(--blue-color)
-}
-button:hover {
-    background-color: var(--blue-color);
-    color: white;
+    margin-bottom: 0.3em;
 }
 </style>
