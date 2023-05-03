@@ -16,6 +16,7 @@ async function logout() {
 <template>
     <div class="login-info">
         {{ login.user.firstName }} {{ login.user.lastName }}
+        <img class="chevron" src="/chevron-down-solid.svg" />
         <div class="login-dropdown">
             <div>Študijná skupina: {{ login.user.StudentGroupId }}</div>
             <div>Osobné číslo: {{ login.user.id }}</div>
@@ -28,6 +29,19 @@ async function logout() {
 .login-info {
     position: relative;
     padding-block: 1em;
+}
+
+.chevron {
+    height: 1em;
+    filter: invert(100%);
+    transition: rotate 0.5s;
+    display: block;
+    float: right;
+    margin-left: 0.4em;
+}
+
+.login-info:hover .chevron {
+    rotate: 180deg;
 }
 
 .login-dropdown {
