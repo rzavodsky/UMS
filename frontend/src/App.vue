@@ -69,7 +69,7 @@ header {
 
 @media only screen and (max-width: 600px) {
     main {
-        font-size: 0.6em;
+        font-size: 0.8em;
         width: 100%;
         border-radius: 0;
         box-shadow: none;
