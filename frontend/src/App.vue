@@ -13,7 +13,7 @@ const login = useLoginStore();
             <div class="logo-text">UMS</div>
         </div>
         <template v-if="login.loggedIn">
-            <RouterLink to="rozvrh">Rozvrh</RouterLink>
+            <RouterLink class="hover-underline" to="rozvrh">Rozvrh</RouterLink>
             <LoginInfo />
         </template>
     </header>

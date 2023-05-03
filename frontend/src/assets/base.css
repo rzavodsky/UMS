@@ -7,6 +7,7 @@
 
 :root {
     --blue-color: #2b3a64;
+    --background-blue-color: hsl(224, 40%, 90%);
 }
 
 html {
@@ -17,7 +18,7 @@ a {
     color: inherit;
     text-decoration: none;
 }
-a::after {
+.hover-underline::after {
     content: '';
     width: 0;
     display: block;
@@ -26,6 +27,6 @@ a::after {
     height: 2px;
     transition: width 0.3s;
 }
-a:hover::after {
+.hover-underline:hover::after {
     width: 100%;
 }
