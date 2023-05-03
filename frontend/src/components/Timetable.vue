@@ -3,9 +3,8 @@ import { api_fetch } from '@/api';
 import { computed, ref, watchEffect } from 'vue';
 
 const props = defineProps<{
-    classroom?: number,
-    teacher?: number,
-    student?: number,
+    id: number | null
+    type: 'classroom' | 'teacher' | 'student' | null
 }>();
 
 const WEEKDAYS = [
@@ -35,21 +34,29 @@ const totalLessonLength = computed(() => {
 })
 
 watchEffect(async () => {
-    let url;
-    if (props.teacher !== undefined) {
-        url = `/teachers/${props.teacher}/lessons`;
-    } else if (props.student !== undefined) {
-        url = `/students/${props.student}/lessons`;
-    } else if (props.classroom !== undefined) {
-        url = `/classrooms/${props.student}/lessons`;
-    } else {
-        throw new Error("At least one of the props need to be defined")
+    if (props.type === null || props.id === null) {
+        lessons.value = [];
+        return;
     }
+
+    let url;
+    if (props.type === 'teacher') {
+        url = `/teachers`;
+    } else if (props.type === 'student') {
+        url = `/students`;
+    } else if (props.type === 'classroom') {
+        url = `/classrooms`;
+    } else {
+        throw new Error("Invalid Timetable type");
+    }
+
+    url += `/${props.id}/lessons`;
+
     const res = await api_fetch(url);
     if (!res.ok) {
         throw new Error("Timetable fetch failed");
     }
-    const body = await res.json()
+    const body = await res.json();
     lessons.value = body.data;
 })
 
@@ -68,7 +75,7 @@ function getLessonColor(id: number): string {
         <div class="heading weekday" v-for="i in WEEKDAY_COUNT" :style="{'--weekdayIndex': i}" >
             {{WEEKDAYS[i-1]}}
         </div>
-        <div class="heading hour" v-for="i in HOUR_COUNT" :style="{ '--hourIndex': i}" >
+        <div class="heading hour" v-for="i in HOUR_COUNT" :style="{'--hourIndex': i}" >
             {{i + HOUR_START - 1}}:00
         </div>
         <div class="timetable-element timetable-filler" v-for="_ in WEEKDAY_COUNT * HOUR_COUNT - totalLessonLength" />
@@ -83,7 +90,7 @@ function getLessonColor(id: number): string {
             <div>{{lesson.Classroom.name}}</div>
             <div>{{lesson.Teacher.firstName}} {{lesson.Teacher.lastName}}</div>
         </div>
-        </div>
+    </div>
 </template>
 
 <style scoped>
@@ -114,6 +121,7 @@ function getLessonColor(id: number): string {
 }
 
 .lesson {
+    padding: 0.2em;
     position: relative;
     grid-row: var(--weekdayIndex) / span 1;
     grid-column: var(--hourIndex) / span var(--duration);
