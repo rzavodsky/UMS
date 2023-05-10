@@ -30,7 +30,12 @@ const router = createRouter({
             path: '/rozvrh/:type(teacher|student|classroom)?/:id(\\d+)?',
             name: 'timetable',
             component: () => import("@/views/Rozvrh.vue"),
-        }
+        },
+        {
+            path: '/heslo',
+            name: 'password',
+            component: () => import("@/views/Heslo.vue")
+        },
     ]
 });
 router.beforeEach((to, _from) => {
