@@ -8,12 +8,12 @@ const login = useLoginStore();
 <template>
     <div class="background"></div>
     <header>
-        <div class="logo">
+        <RouterLink to="/" class="logo">
             <img class="logo-img" src="/logo_dark.png"/>
             <div class="logo-text">UMS</div>
-        </div>
+        </RouterLink>
         <template v-if="login.loggedIn">
-            <RouterLink class="hover-underline" to="rozvrh">Rozvrh</RouterLink>
+            <RouterLink class="hover-underline" to="/rozvrh">Rozvrh</RouterLink>
             <LoginInfo />
         </template>
     </header>
