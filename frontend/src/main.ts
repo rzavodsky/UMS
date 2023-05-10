@@ -32,6 +32,11 @@ const router = createRouter({
             component: () => import("@/views/Rozvrh.vue"),
         },
         {
+            path: '/predmety',
+            name: 'subject-list',
+            component: () => import("@/views/Predmety.vue"),
+        },
+        {
             path: '/heslo',
             name: 'password',
             component: () => import("@/views/Heslo.vue")
