@@ -124,21 +124,13 @@ router.post('/students',
 
 // Update
 router.patch('/students/:id',
+    adminOnly,
     validate({ body: patch_schema }),
     async (req, res) => {
+        res.locals.data.set(req.body)
         if (req.body.loginPassword !== undefined) {
-            if (!(req.key.isAdmin || req.key.PersonId == req.params.id)) {
-                res.status(403).end()
-                return
-            }
             const hashedPwd = await hashPassword(req.body.loginPassword)
             res.locals.data.loginPassword = hashedPwd
-        } else {
-            if (!req.key.isAdmin) {
-                res.status(403).end()
-                return
-            }
-            res.locals.data.set(req.body)
         }
         await res.locals.data.save()
         res.json(personToJson(res.locals.data))

@@ -3,7 +3,7 @@ import { validate } from '../validation.js'
 import { Person } from '../db.js'
 import { personToJson as studentToJson } from './student.js'
 import { personToJson as teacherToJson } from './teacher.js'
-import { comparePassword, createNewKeyForUser } from '../auth.js'
+import { comparePassword, createNewKeyForUser, hashPassword } from '../auth.js'
 
 const router = Router()
 
@@ -74,6 +74,38 @@ router.get("/me", async (req, res) => {
     data.isTeacher = person.isTeacher
     data.isAdmin = false
     res.status(200).json(data)
+})
+
+router.post("/changepwd",
+    validate({
+        body: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                oldPassword: { type: 'string' },
+                newPassword: { type: 'string' },
+            },
+            required: ['oldPassword', 'newPassword'],
+        }
+    }),
+    async (req, res) => {
+        if (req.key.isAdmin) {
+            res.status(400).json({
+                error: "Admin cannot change password",
+            });
+            return;
+        }
+        const person = await Person.findByPk(req.key.PersonId)
+        const passwordMatch = await comparePassword(req.body.oldPassword, person.loginPassword);
+        if (!passwordMatch) {
+            res.status(400).json({
+                error: "Invalid password",
+            });
+            return;
+        }
+        person.loginPassword = await hashPassword(req.body.newPassword);
+        await person.save();
+        res.status(204).end()
 })
 
 export default router
