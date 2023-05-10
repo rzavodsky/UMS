@@ -80,7 +80,7 @@ watch(user, async () => {
                     </RouterLink></td>
                 </tr>
             </table>
-            <RouterLink class="button-primary predmety-button" to="predmety">Prihlásenie / Odhlásenie z predmetov</RouterLink>
+            <RouterLink class="button-primary predmety-button" to="/predmety">Prihlásenie / Odhlásenie z predmetov</RouterLink>
         </div>
     </div>
 </template>
