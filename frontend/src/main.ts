@@ -27,7 +27,7 @@ const router = createRouter({
         },
         { path: '/login', component: Login, name: 'login' },
         {
-            path: '/rozvrh',
+            path: '/rozvrh/:type(teacher|student|classroom)?/:id(\\d+)?',
             name: 'timetable',
             component: () => import("@/views/Rozvrh.vue"),
         }
