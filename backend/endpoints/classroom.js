@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
-import { Classroom } from '../db.js'
+import { Classroom, Lesson, Subject, Person } from '../db.js'
 import { adminOnly } from '../auth.js'
 
 const router = Router()
@@ -62,5 +62,19 @@ router.delete('/classrooms/:id',
     async (_req, res) => {
         await res.locals.data.destroy()
         res.status(204).end() // No Content
+    })
+
+// Lessons get
+router.get('/classrooms/:id/lessons',
+    async (req, res) => {
+        const lessons = await Lesson.findAll({
+            where: {
+                ClassroomId: req.params.id,
+            },
+            include: [Subject, Classroom, { model: Person, as: 'Teacher' }],
+        })
+        res.status(200).json({
+            data: lessons,
+        })
     })
 export default router

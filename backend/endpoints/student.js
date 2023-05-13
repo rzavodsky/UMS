@@ -165,7 +165,7 @@ router.get('/students/:id/lessons',
                 Classroom,
             ],
         })
-        res.status(200).json({
+        res.json({
             data: lessons,
         })
     })
