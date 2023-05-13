@@ -101,6 +101,7 @@ function getLessonColor(id: number): string {
 }
 .timetable-element {
     border: 1px solid black;
+    min-height: 2em;
 }
 
 .heading {
