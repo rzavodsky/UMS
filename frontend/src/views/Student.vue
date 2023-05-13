@@ -75,7 +75,7 @@ watch(user, async () => {
                 <tr v-for="subject in subjects">
                     <td>{{subject.Subject.name}}</td>
                     <td class="grade">{{subject.grade}}</td>
-                    <td class="info-link"><RouterLink :to="`/predmet/${subject.id}`">
+                    <td class="info-link"><RouterLink :to="`/predmet/${subject.SubjectId}`">
                         <img class="info-icon" src="/circle-info-solid.svg" />
                     </RouterLink></td>
                 </tr>
