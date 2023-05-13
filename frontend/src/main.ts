@@ -41,6 +41,11 @@ const router = createRouter({
             name: 'password',
             component: () => import("@/views/Heslo.vue")
         },
+        {
+            path: '/predmet/:id(\\d+)',
+            name: 'subject',
+            component: () => import("@/views/Predmet.vue")
+        },
     ]
 });
 router.beforeEach((to, _from) => {
