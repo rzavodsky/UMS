@@ -88,7 +88,7 @@ function submitSearch(suggestion?: SearchItem) {
             <option value="teacher">Učiteľ</option>
             <option value="classroom">Učebňa</option>
         </select>
-        <input class="search" v-model="searchTerm" placeholder="Vyhľadávanie" @keydown.enter="submitSearch()" @focusout="suggestions = []" />
+        <input class="search" v-model="searchTerm" placeholder="Vyhľadávanie" @keydown.enter="submitSearch()" />
         <div class="suggestions">
             <div v-for="suggestion in suggestions" class="suggestion" @click="submitSearch(suggestion)" >
                 {{suggestion.key}}
@@ -107,6 +107,7 @@ function submitSearch(suggestion?: SearchItem) {
     grid-template-areas: "dropdown    input"
                          "suggestions suggestions";
     --border: 1px solid #888888; 
+    position: relative;
 }
 
 .dropdown {
@@ -135,11 +136,19 @@ function submitSearch(suggestion?: SearchItem) {
     border-top: none;
     display: none;
     border-radius: 0 0 5px 5px;
+    position: absolute;
+    width: 100%;
+    background: white;
+    z-index: 1;
+    max-height: 5em;
+    overflow: scroll;
 }
 .suggestion {
     display: block;
-    padding: 0 0.2em;
+    padding: 0.2em 0.2em;
     border-bottom: var(--border);
+    font-size: 0.8em;
+    cursor: pointer;
 }
 .suggestion:last-child {
     border-bottom: none;
