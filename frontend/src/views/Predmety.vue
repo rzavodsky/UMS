@@ -1,17 +1,8 @@
 <script setup lang="ts">
-import { api_fetch } from '@/api';
+import { api_fetch, type Subject } from '@/api';
 import { useLoginStore } from '@/stores/login';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
-interface Subject {
-    id: number,
-    name: string,
-    credits: number,
-    lectureAmount: number,
-    excerciseAmount: number,
-    semester: number,
-}
 
 const loginStore = useLoginStore();
 const router = useRouter();

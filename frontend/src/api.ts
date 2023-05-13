@@ -57,3 +57,99 @@ export async function unauth_api_fetch(url: string, options?: RequestOptions) {
         headers: headers,
     })
 }
+
+export interface Subject {
+    id: number,
+    name: string,
+    credits: number,
+    lectureAmount: number,
+    excerciseAmount: number,
+    semester: number,
+    description: string,
+}
+
+export interface StudentSubject {
+    id: number,
+    grade: "A" | "B" | "C" | "D" | "E" | "Fx" | null,
+    SubjectId: number,
+    StudentId: number,
+    Subject?: Subject,
+    Student?: Student,
+}
+
+export interface Country {
+    id: number,
+    name: string,
+}
+
+export interface City {
+    id: number,
+    name: string,
+    CountryId: number,
+    Country?: Country,
+}
+
+export interface DegreeType {
+    id: number,
+    name: string,
+    length: number,
+    requiredCredits: number,
+}
+
+export interface Faculty {
+    id: number,
+    name: string,
+    shortcut: string,
+    description: string,
+}
+
+export interface Programme {
+    id: number,
+    name: string,
+    DegreeTypeId: number,
+    DegreeType?: DegreeType,
+    FacutlyId: number,
+    Faculty?: Faculty,
+}
+
+export interface StudentGroup {
+    id: number,
+    name: string,
+    ProgrammeId: number,
+    Programme?: Programme,
+}
+
+interface Person {
+    firstName: string,
+    lastName: string,
+    gender: string,
+    id: number,
+    birthDate: Date,
+    loginUsername: string,
+    CityId: number,
+    City: City,
+    isAdmin?: false,
+    isTeacher: boolean,
+}
+
+export interface Student extends Person {
+    studentCredits: number,
+    StudentGroupId: number,
+    StudentGroup?: StudentGroup,
+    isTeacher: false,
+}
+
+export interface Teacher extends Person {
+    TeacherFacultyId: number,
+    TeacherFaculty?: Faculty,
+    isTeacher: true,
+}
+
+export type UserInfo =
+    { isAdmin: true } |
+    (Teacher & { isAdmin: false }) |
+    (Student & { isAdmin: false })
+
+export interface ResponseList<T> {
+    data: T[],
+}
