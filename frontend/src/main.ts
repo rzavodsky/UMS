@@ -47,6 +47,11 @@ const router = createRouter({
             component: () => import("@/views/Predmet.vue")
         },
         {
+            path: '/grade/:id(\\d+)',
+            name: 'grade',
+            component: () => import("@/views/Grade.vue")
+        },
+        {
             path: '/:pathMatch(.*)*',
             name: 'notfound',
             component: () => import("@/views/404.vue")
