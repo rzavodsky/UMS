@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validateIdParams, validate } from '../validation.js'
-import { Person, Classroom, Subject, Lesson } from '../db.js'
+import { Person, Classroom, Subject, Lesson, StudentSubject } from '../db.js'
 import { Op } from 'sequelize'
 import { PASSWORD_REGEX, adminOnly, hashPassword } from '../auth.js'
 
@@ -159,6 +159,40 @@ router.get('/teachers/:id/lessons',
         })
         res.json({
             data: lessons,
+        })
+    })
+
+// Subjects
+router.get('/teachers/:id/subjects',
+    async (req, res) => {
+        const subjects = await Subject.findAll({
+            include: [
+                {
+                    model: Lesson,
+                    required: true,
+                    where: {
+                        TeacherId: req.params.id,
+                    },
+                    attributes: [],
+                }
+            ],
+        })
+        const ungradedStudentCounts = await StudentSubject.count({
+            where: {
+                SubjectId: {
+                    [Op.in]: subjects.map(subject => subject.id),
+                },
+                grade: null,
+            },
+            group: ["SubjectId"],
+        })
+
+        res.json({
+            data: subjects.map(subject => {
+                const s = subject.toJSON()
+                s.ungradedStudentCount = ungradedStudentCounts.find(count => count.SubjectId == subject.id)?.count ?? 0
+                return s
+            })
         })
     })
 export default router
