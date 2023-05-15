@@ -46,6 +46,11 @@ const router = createRouter({
             name: 'subject',
             component: () => import("@/views/Predmet.vue")
         },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'notfound',
+            component: () => import("@/views/404.vue")
+        }
     ]
 });
 router.beforeEach((to, _from) => {
