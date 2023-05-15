@@ -10,10 +10,8 @@ const router = useRouter();
 watch(loginStore, async () => {
     if (loginStore.user?.isAdmin) {
         component.value = await import("@/views/Admin.vue").then(comp => comp.default);
-    } else if (loginStore.user?.isTeacher) {
-        component.value = await import("@/views/Teacher.vue").then(comp => comp.default);
-    } else if (loginStore.user?.isTeacher === false) {
-        component.value = await import("@/views/Student.vue").then(comp => comp.default);
+    } else if (loginStore.user !== null) {
+        component.value = await import("@/views/UserHome.vue").then(comp => comp.default);
     } else {
         router.push({ name: 'login' });
     }
