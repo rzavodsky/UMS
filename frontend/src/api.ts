@@ -119,6 +119,27 @@ export interface StudentGroup {
     Programme?: Programme,
 }
 
+export interface Classroom {
+    id: number,
+    name: string,
+}
+
+export interface Lesson {
+    id: number,
+    weekDay: number
+    hour: number,
+    duration: number,
+    type: "lecture" | "excercise",
+    ClassroomId: number,
+    Classroom?: Classroom,
+    StudentGroupId: number,
+    StudentGroup?: StudentGroup,
+    SubjectId: number,
+    Subject?: Subject,
+    TeacherId: number,
+    Teacher?: Teacher,
+}
+
 interface Person {
     firstName: string,
     lastName: string,
