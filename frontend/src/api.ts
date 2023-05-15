@@ -72,9 +72,9 @@ export interface StudentSubject {
     id: number,
     grade: "A" | "B" | "C" | "D" | "E" | "Fx" | null,
     SubjectId: number,
-    StudentId: number,
+    PersonId: number,
     Subject?: Subject,
-    Student?: Student,
+    Person?: Student,
 }
 
 export interface Country {
