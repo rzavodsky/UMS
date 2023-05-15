@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { api_fetch, type Subject } from '@/api';
+import { api_fetch, type StudentSubject, type Subject } from '@/api';
 import { useLoginStore } from '@/stores/login';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -16,29 +16,22 @@ onMounted(async () => {
     if (loginStore.user === null || loginStore.user.isAdmin || loginStore.user.isTeacher) {
         throw Error("Only students can access the subject list");
     }
-    let res = await api_fetch("/subjects");
-    let json = await res.json();
+    subjects.value = await api_fetch("/subjects")
+        .then(res => res.json())
+        .then(res => res.data);
 
-    for (const subject of json.data) {
-        subjects.value.push({
-            id: subject.id,
-            name: subject.name,
-            credits: subject.credits,
-            lectureAmount: subject.lectureAmount,
-            excerciseAmount: subject.excerciseAmount,
-            semester: subject.semester,
-        })
-    }
-
-    res = await api_fetch(`/studentsubjects?StudentId=${loginStore.user.id}`)
-    json = await res.json();
-    for (const studsub of json.data) {
+    const studsubs: StudentSubject[] = await api_fetch(`/studentsubjects?StudentId=${loginStore.user.id}`)
+        .then(res => res.json())
+        .then(res => res.data);
+    for (const studsub of studsubs) {
         signedUpIds.value.push(studsub.SubjectId);
         initialSignedUpIds.push(studsub.SubjectId);
     }
 });
 
 async function submit() {
+    if (loginStore.user === null || loginStore.user.isAdmin) return;
+
     const removed = initialSignedUpIds.filter(x => !signedUpIds.value.includes(x));
     const added = signedUpIds.value.filter(x => !initialSignedUpIds.includes(x));
     if (added.length == 0 && removed.length == 0) {
@@ -66,7 +59,7 @@ async function submit() {
     if (!confirm(message)) {
         return;
     }
-    let studsub = null;
+    let studsub: StudentSubject[] = [];
     if (removed.length > 0) {
         const res = await api_fetch(`/studentsubjects?StudentId=${loginStore.user.id}`);
         const json = await res.json();
@@ -82,7 +75,7 @@ async function submit() {
         })
     }
     for (const subjectId of removed) {
-        const studsubId = studsub.find(x => x.SubjectId == subjectId).id;
+        const studsubId = studsub.find(x => x.SubjectId == subjectId)?.id;
         await api_fetch(`/studentsubjects/${studsubId}`, {
             method: "DELETE",
         });
@@ -111,7 +104,7 @@ async function submit() {
             <td><input type="checkbox" :value="subject.id" v-model="signedUpIds" /></td>
         </tr>
     </table>
-    <button class="button-primary submit-button" @click="submit">Submit</button>
+    <button class="button-primary submit-button" @click="submit">Uložiť</button>
 </template>
 
 <style scoped>
