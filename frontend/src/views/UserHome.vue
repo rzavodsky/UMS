@@ -57,12 +57,15 @@ const nextLesson = computed(() => {
     display: grid;
     grid-template: "a a" "b c";
     grid-template-columns: 1fr 1fr;
+    justify-items: center;
     gap: 2em;
 }
 .next-lesson {
     grid-area: a;
+    text-align: center;
 }
 .today-lesson-list {
+    width: 100%;
     grid-area: b;
 }
 .all-subjects {
