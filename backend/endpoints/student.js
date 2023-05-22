@@ -132,6 +132,9 @@ router.patch('/students/:id',
             const hashedPwd = await hashPassword(req.body.loginPassword)
             res.locals.data.loginPassword = hashedPwd
         }
+        if (req.body.credits !== undefined) {
+            res.locals.data.studentCredits = req.body.credits;
+        }
         await res.locals.data.save()
         res.json(personToJson(res.locals.data))
     })
