@@ -30,6 +30,7 @@ const patch_schema = {
                 birthDate: { type: 'string', format: 'date' },
                 gender: { type: 'string' },
                 CityId: { type: 'integer' },
+                FacultyId: { type: 'integer' },
             }
         },
         {
