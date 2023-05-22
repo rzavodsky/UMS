@@ -14,13 +14,17 @@ async function logout() {
 </script>
 
 <template>
-    <div v-if="login.user !== null && !login.user.isAdmin" class="login-info">
-        {{ login.user.firstName }} {{ login.user.lastName }}
+    <div v-if="login.user !== null" class="login-info">
+        <template v-if="login.user.isAdmin">Admin</template>
+        <template v-else>{{login.user.firstName}} {{login.user.lastName}}</template>
         <img class="chevron" src="/chevron-down-solid.svg" />
         <div class="login-dropdown">
-            <div v-if="!login.user.isTeacher">Študijná skupina: {{ login.user.StudentGroupId }}</div>
-            <div>Osobné číslo: {{ login.user.id }}</div>
-            <RouterLink class="button-secondary" to="/heslo">Zmena hesla</RouterLink>
+            <template v-if="!login.user.isAdmin">
+                <div v-if="!login.user.isTeacher">Študijná skupina: {{ login.user.StudentGroupId }}</div>
+                <div v-if="!login.user.isTeacher">Kredity: {{login.user.credits}}</div>
+                <div>Osobné číslo: {{ login.user.id }}</div>
+                <RouterLink class="button-secondary" to="/heslo">Zmena hesla</RouterLink>
+            </template>
             <button class="button-secondary" @click="logout">Odhlásiť sa</button>
         </div>
     </div>
