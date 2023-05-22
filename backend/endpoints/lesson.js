@@ -16,32 +16,20 @@ const schema = {
         type: { enum: ['lecture', 'excercise'] },
         ClassroomId: { type: 'integer' },
         StudentGroupId: { type: 'integer' },
+        SubjectId: { type: 'integer' },
     }
 }
-const schema_required = ['weekDay', 'hour', 'duration', 'TeacherId', 'type', 'ClassroomId', 'StudentGroupId']
+const schema_required = ['weekDay', 'hour', 'duration', 'TeacherId', 'type', 'ClassroomId', 'StudentGroupId', 'SubjectId']
 
-router.use('/subjects/:subjectId/lessons', validateIdParams)
-router.use('/subjects/:subjectId/lessons/:id', validateIdParams)
-router.use('/subjects/:subjectId/lessons*', async (req, res, next) => {
-    const subjectId = req.params.subjectId
-    const country = await Subject.findByPk(subjectId)
-    if (country === null) {
-        res.status(404).json({
-            error: `Subject ${subjectId} not found`
-        })
-    } else {
-        next()
-    }
-})
-router.use('/subjects/:subjectId/lessons/:id', async (req, res, next) => {
+router.use('/lessons/:id', validateIdParams)
+router.use('/lessons/:id', async (req, res, next) => {
     const data = await Lesson.findOne({
         where: {
-            SubjectId: req.params.subjectId,
             id: req.params.id,
         }
     })
     if (data === null) {
-        return res.status(404).json({ error: `Lesson ${req.params.id} not found for subject ${req.params.subjectId}` })
+        return res.status(404).json({ error: `Lesson ${req.params.id} not found` })
     }
     res.locals.data = data
     next()
@@ -49,33 +37,29 @@ router.use('/subjects/:subjectId/lessons/:id', async (req, res, next) => {
 
 
 // List
-router.get('/subjects/:subjectId/lessons',
-    async (req, res) => {
-        const data = await Lesson.findAll({
-            where: {
-                SubjectId: req.params.subjectId
-            }
-        })
+router.get('/lessons',
+    async (_req, res) => {
+        const data = await Lesson.findAll()
         res.json({ data: data })
     })
 
 // Retrieve
-router.get('/subjects/:subjectId/lessons/:id',
+router.get('/lessons/:id',
     async (_req, res) => {
         res.json(res.locals.data)
     })
 
 // Create
-router.post('/subjects/:subjectId/lessons',
+router.post('/lessons',
     adminOnly,
     validate({ body: { ...schema, required: schema_required } }),
     async (req, res) => {
-        const data = await Lesson.create({...req.body, SubjectId: req.params.subjectId})
+        const data = await Lesson.create(req.body)
         res.json(data)
     })
 
 // Update
-router.patch('/subjects/:subjectId/lessons/:id',
+router.patch('/lessons/:id',
     adminOnly,
     validate({ body: schema }),
     async (req, res) => {
@@ -85,7 +69,7 @@ router.patch('/subjects/:subjectId/lessons/:id',
     })
 
 // Delete
-router.delete('/subjects/:subjectId/lessons/:id',
+router.delete('/lessons/:id',
     adminOnly,
     async (_req, res) => {
         await res.locals.data.destroy()

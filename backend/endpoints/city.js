@@ -10,32 +10,20 @@ const schema = {
     additionalProperties: false,
     properties: {
         name: { type: 'string', maxLength: 255 },
+        CountryId: { type: 'integer' },
     }
 }
-const schema_required = ['name']   
+const schema_required = ['name', 'CountryId']
 
-router.use('/countries/:countryId/cities', validateIdParams)
-router.use('/countries/:countryId/cities/:id', validateIdParams)
-router.use('/countries/:countryId/cities*', async (req, res, next) => {
-    const countryId = req.params.countryId
-    const country = await Country.findByPk(countryId)
-    if (country === null) {
-        res.status(404).json({
-            error: `Country ${countryId} not found`
-        })
-    } else {
-        next()
-    }
-})
-router.use('/countries/:countryId/cities/:id', async (req, res, next) => {
+router.use('/cities/:id', validateIdParams)
+router.use('/cities/:id', async (req, res, next) => {
     const data = await City.findOne({
         where: {
-            CountryId: req.params.countryId,
             id: req.params.id,
         }
     })
     if (data === null) {
-        return res.status(404).json({ error: `City ${req.params.id} not found for country ${req.params.countryId}` })
+        return res.status(404).json({ error: `City ${req.params.id} not found` })
     }
     res.locals.data = data
     next()
@@ -43,33 +31,29 @@ router.use('/countries/:countryId/cities/:id', async (req, res, next) => {
 
 
 // List
-router.get('/countries/:countryId/cities',
+router.get('/cities',
     async (req, res) => {
-        const data = await City.findAll({
-            where: {
-                CountryId: req.params.countryId
-            }
-        })
+        const data = await City.findAll()
         res.json({ data: data })
     })
 
 // Retrieve
-router.get('/countries/:countryId/cities/:id',
+router.get('/cities/:id',
     async (_req, res) => {
         res.json(res.locals.data)
     })
 
 // Create
-router.post('/countries/:countryId/cities',
+router.post('/cities',
     adminOnly,
     validate({ body: { ...schema, required: schema_required } }),
     async (req, res) => {
-        const data = await City.create({...req.body, CountryId: req.params.countryId})
+        const data = await City.create(req.body)
         res.json(data)
     })
 
 // Update
-router.patch('/countries/:countryId/cities/:id',
+router.patch('/cities/:id',
     adminOnly,
     validate({ body: schema }),
     async (req, res) => {
@@ -79,7 +63,7 @@ router.patch('/countries/:countryId/cities/:id',
     })
 
 // Delete
-router.delete('/countries/:countryId/cities/:id',
+router.delete('/cities/:id',
     adminOnly,
     async (_req, res) => {
         await res.locals.data.destroy()
