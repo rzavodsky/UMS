@@ -89,7 +89,9 @@ export const Key = sequelize.define('Key', {
     isTeacher: DataTypes.BOOLEAN,
     hashedKey: { type: DataTypes.STRING(64), unique: true },
 })
-Key.belongsTo(Person)
+Key.belongsTo(Person, {
+    onDelete: 'CASCADE',
+})
 Person.hasMany(Key)
 
 Country.hasMany(City, { onDelete: 'CASCADE'})
@@ -99,13 +101,21 @@ City.belongsTo(Country)
 
 Classroom.hasMany(Lesson)
 
-DegreeType.hasMany(Programme)
+DegreeType.hasMany(Programme, {
+    onDelete: 'CASCADE',
+})
 
-Faculty.hasMany(Subject)
-Faculty.hasMany(Programme)
+Faculty.hasMany(Subject, {
+    onDelete: 'CASCADE',
+})
+Faculty.hasMany(Programme, {
+    onDelete: 'CASCADE',
+})
 Faculty.hasMany(Person, { foreignKey: 'TeacherFacultyId' })
 
-Programme.hasMany(StudentGroup)
+Programme.hasMany(StudentGroup, {
+    onDelete: 'CASCADE',
+})
 Programme.belongsTo(Faculty)
 Programme.belongsTo(DegreeType)
 
@@ -113,12 +123,20 @@ StudentGroup.hasMany(Person)
 StudentGroup.hasMany(Lesson)
 StudentGroup.belongsTo(Programme)
 
-Subject.hasMany(StudentSubject)
-Subject.hasMany(Lesson)
+Subject.hasMany(StudentSubject, {
+    onDelete: 'CASCADE',
+})
+Subject.hasMany(Lesson, {
+    onDelete: 'CASCADE',
+})
 Subject.belongsTo(Faculty)
 
-Person.hasMany(StudentSubject)
-Person.hasMany(Lesson, { foreignKey: 'TeacherId' })
+Person.hasMany(StudentSubject, {
+    onDelete: 'CASCADE',
+})
+Person.hasMany(Lesson, {
+    foreignKey: 'TeacherId'
+})
 Person.belongsTo(StudentGroup)
 Person.belongsTo(Faculty, { as: 'TeacherFaculty' })
 Person.belongsTo(City)
