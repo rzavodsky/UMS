@@ -73,6 +73,10 @@ router.get('/studentsubjects/:id',
 router.post('/studentsubjects',
     validate({ body: schema }),
     (req, res, next) => {
+        if (req.key.PersonId !== req.body.StudentId) {
+            res.status(403).end()
+            return
+        }
         const body = {
             SubjectId: req.body.SubjectId,
             PersonId: req.body.StudentId,
@@ -86,6 +90,10 @@ router.post('/studentsubjects',
 router.patch('/studentsubjects/:id',
     validate({ body: patch_schema }),
     async (req, res) => {
+        if (!req.key.isTeacher) {
+            res.status(403).end()
+            return
+        }
         res.locals.data.set(req.body)
         await res.locals.data.save()
         res.json(res.locals.data)
@@ -93,7 +101,11 @@ router.patch('/studentsubjects/:id',
 
 // Delete
 router.delete('/studentsubjects/:id',
-    async (_req, res) => {
+    async (req, res) => {
+        if (req.key.PersonId !== res.locals.data.PersonId) {
+            res.status(403).end()
+            return
+        }
         await res.locals.data.destroy()
         res.status(204).end() // No Content
     })
