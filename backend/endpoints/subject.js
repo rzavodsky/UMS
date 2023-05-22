@@ -18,20 +18,8 @@ const schema = {
         description: { type: 'string', maxLength: 4096 },
         shortcut: { type: 'string', maxLength: 10 },
     },
-    required: ['name', 'FacultyId', 'excerciseAmount', 'lectureAmount', 'credits', 'semester', 'shortcut'],
 }
-const patch_schema = {
-    type: 'object',
-    additionalProperties: false,
-    properties: {
-        name: { type: 'string', maxLength: 255 },
-        excerciseAmount: { type: 'integer' },
-        lectureAmount: { type: 'integer' },
-        credits: { type: 'integer' },
-        semester: { type: 'integer' },
-        description: { type: 'string', maxLength: 4096 },
-    }
-}
+const schema_required = ['name', 'FacultyId', 'excerciseAmount', 'lectureAmount', 'credits', 'semester', 'shortcut']
 
 router.use('/subjects/:id', validateIdParams)
 router.use('/subjects/:id', async (req, res, next) => {
@@ -59,7 +47,7 @@ router.get('/subjects/:id',
 // Create
 router.post('/subjects',
     adminOnly,
-    validate({ body: schema }),
+    validate({ body: { ...schema, required: schema_required } }),
     (req, res, next) => {
         Subject.create(req.body)
             .then(data => res.json(data))
@@ -69,7 +57,7 @@ router.post('/subjects',
 // Update
 router.patch('/subjects/:id',
     adminOnly,
-    validate({ body: patch_schema }),
+    validate({ body: schema }),
     async (req, res) => {
         res.locals.data.set(req.body)
         await res.locals.data.save()
