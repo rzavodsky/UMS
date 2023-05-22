@@ -154,7 +154,7 @@ interface Person {
 }
 
 export interface Student extends Person {
-    studentCredits: number,
+    credits: number,
     StudentGroupId: number,
     StudentGroup?: StudentGroup,
     isTeacher: false,
