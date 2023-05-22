@@ -66,6 +66,7 @@ export interface Subject {
     excerciseAmount: number,
     semester: number,
     description: string,
+    shortcut: string,
 }
 
 export interface StudentSubject {

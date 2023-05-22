@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { Lesson } from '@/api';
 import { computed } from 'vue';
 
 const props = defineProps<{
-    todayLessons: any[]
+    todayLessons: Lesson[]
 }>();
 
 const lessonType = {
@@ -23,8 +24,8 @@ const todayLessonLength = computed(() => {
         <div v-for="lesson in props.todayLessons" class="lesson" :style="{
                                                                  '--index': lesson.hour - 5,
                                                                  '--duration': lesson.duration }">
-            <div><strong>{{lesson.Subject.shortcut}}</strong></div>
-            <div>{{lesson.Classroom.name}}</div>
+            <div><strong>{{lesson.Subject!.shortcut}}</strong></div>
+            <div>{{lesson.Classroom!.name}}</div>
             <div class="icon" :data-tooltip="lessonType[lesson.type]"><img :src="lesson.type === 'excercise' ? '/flask-solid.svg' : '/bed-solid.svg'"/></div>
         </div>
     </div>

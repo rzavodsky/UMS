@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { api_fetch } from '@/api';
+import { api_fetch, type Lesson } from '@/api';
 import { computed, ref, watchEffect } from 'vue';
 
 const props = defineProps<{
@@ -24,7 +24,7 @@ const WEEKDAY_COUNT = 5
 const HOUR_COUNT = 13
 const HOUR_START = 7
 
-const lessons = ref<any[]>([]);
+const lessons = ref<Lesson[]>([]);
 const totalLessonLength = computed(() => {
     let total = 0;
     for (const lesson of lessons.value) {
@@ -82,13 +82,13 @@ function getLessonColor(id: number): string {
         <div class="timetable-element lesson" v-for="lesson in lessons" :style="{ '--weekdayIndex': lesson.weekDay + 2,
                                                       '--hourIndex': lesson.hour - HOUR_START + 2,
                                                       '--duration': lesson.duration,
-                                                      backgroundColor: getLessonColor(lesson.Subject.id),
+                                                      backgroundColor: getLessonColor(lesson.Subject!.id),
                                                       }" >
             <div class="icon" :data-tooltip="lessonType[lesson.type]"><img :src="lesson.type === 'excercise' ? '/flask-solid.svg' : '/bed-solid.svg'"/></div>
             
-            <div><strong>{{ lesson.Subject.shortcut }}</strong></div>
-            <div>{{lesson.Classroom.name}}</div>
-            <div>{{lesson.Teacher.firstName}} {{lesson.Teacher.lastName}}</div>
+            <div><strong>{{ lesson.Subject!.shortcut }}</strong></div>
+            <div>{{lesson.Classroom!.name}}</div>
+            <div>{{lesson.Teacher!.firstName}} {{lesson.Teacher!.lastName}}</div>
         </div>
     </div>
 </template>
