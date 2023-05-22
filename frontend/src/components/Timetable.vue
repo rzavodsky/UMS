@@ -100,7 +100,7 @@ function getLessonColor(id: number): string {
     grid-template-rows: min-content repeat(v-bind(WEEKDAY_COUNT), 1fr);
 }
 .timetable-element {
-    border: 1px solid black;
+    border: 1px solid var(--blue-color);
     min-height: 2em;
 }
 
@@ -144,7 +144,7 @@ function getLessonColor(id: number): string {
     padding: 0.1em 0.3em;
     transform: translateY(100%);
     content: attr(data-tooltip);
-    border: 1px solid black;
+    border: 1px solid var(--blue-color);
     background-color: white;
     width: max-content;
     display: none;

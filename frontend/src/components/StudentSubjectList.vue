@@ -39,7 +39,7 @@ watch(loginStore, async () => {
 <style scoped>
 td, th {
     padding: 0.1em 0.7em;
-    border: 1px solid black;
+    border: 1px solid var(--blue-color);
 }
 
 table {

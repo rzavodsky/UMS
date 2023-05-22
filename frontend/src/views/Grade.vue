@@ -90,7 +90,7 @@ tr:nth-child(odd) {
     background-color: var(--background-blue-color);
 }
 td, th {
-    border: 1px solid black;
+    border: 1px solid var(--blue-color);
     padding: 0.2em 0.5em;
 }
 .grade {

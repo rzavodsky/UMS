@@ -92,7 +92,7 @@ table {
     border-collapse: collapse;
 }
 th, td {
-    border: 1px solid black;
+    border: 1px solid var(--blue-color);
     padding: 0.2em 0.5em;
     text-align: left;
 }

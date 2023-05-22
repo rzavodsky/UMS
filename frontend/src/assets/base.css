@@ -39,6 +39,8 @@ a {
     border-radius: 5px;
     color: white;
     padding: 0.5em;
+    border: none;
+    font-weight: bold;
 }
 
 .button-primary:hover {

@@ -58,7 +58,7 @@ const todayLessonLength = computed(() => {
 }
 .lesson {
     grid-row: var(--index) / span var(--duration);
-    border: 2px solid black;
+    border: 2px solid var(--blue-color);
     border-radius: 5px;
     padding: 0.4em;
     position: relative;
@@ -81,7 +81,7 @@ const todayLessonLength = computed(() => {
     padding: 0.1em 0.3em;
     transform: translateY(100%);
     content: attr(data-tooltip);
-    border: 1px solid black;
+    border: 1px solid var(--blue-color);
     background-color: white;
     width: max-content;
     display: none;

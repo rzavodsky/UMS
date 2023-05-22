@@ -29,7 +29,7 @@ watch(loginStore, async () => {
     aspect-ratio: 1 / 1;
     width: 5em;
     border: 5px solid #DDDDDD;
-    border-right: 5px solid black;
+    border-right: 5px solid var(--blue-color);
     animation: rotation 1s linear 0s infinite;
 }
 @keyframes rotation {
