@@ -1,0 +1,14 @@
+#+TITLE:UMS
+Systém na správu univerzít.
+* Dependencies
+- Docker s podporou Compose V2
+* Spustenie aplikácie
+#+begin_src shell
+docker compose --profile prod up
+#+end_src
+Aplikácia sa spustí na porte 80.
+* Spustenie development serveru
+#+begin_src shell
+docker compose --profile dev up
+#+end_src
+Aplikácia sa spustí na porte 80, Adminer pre správu databázy sa spustí na porte 8080.
