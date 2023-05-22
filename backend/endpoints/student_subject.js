@@ -5,6 +5,7 @@ import { StudentSubject, Person, Subject } from '../db.js'
 
 const router = Router()
 
+const PASSING_GRADES = ['A', 'B', 'C', 'D', 'E']
 const schema = {
     type: 'object',
     additionalProperties: false,
@@ -94,7 +95,16 @@ router.patch('/studentsubjects/:id',
             res.status(403).end()
             return
         }
+        const gradeBefore = res.locals.data.grade;
         res.locals.data.set(req.body)
+        const gradeAfter = res.locals.data.grade;
+        const student = await Person.findByPk(res.locals.data.PersonId)
+        const subject = await Subject.findByPk(res.locals.data.SubjectId)
+        if (PASSING_GRADES.includes(gradeBefore) && !PASSING_GRADES.includes(gradeAfter)) {
+            student.decrement('studentCredits', { by: subject.credits })
+        } else if (!PASSING_GRADES.includes(gradeBefore) && PASSING_GRADES.includes(gradeAfter)) {
+            student.increment('studentCredits', { by: subject.credits })
+        }
         await res.locals.data.save()
         res.json(res.locals.data)
     })
