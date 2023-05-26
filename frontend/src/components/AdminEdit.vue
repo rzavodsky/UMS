@@ -106,7 +106,9 @@ async function save() {
     transform: translate(-50%, -50%);
     padding: 1em;
     border-radius: 10px;
-    width: 40em;
+    max-width: 40em;
+    width: 70vw;
+    min-width: max-content;
 }
 .title {
     text-align: center;

@@ -77,8 +77,8 @@ async function addDatum() {
                 </td>
             </tr>
         </table>
-        <button class="button-primary add-button" @click="addDatum">Pridať</button>
     </div>
+    <button class="button-primary add-button" @click="addDatum">Pridať</button>
     <AdminEdit v-if="modalEnabled" :resource="selected" :id="currentEditId" :otherData="otherData" @close="modalEnabled = false; refresh();" />
 </template>
 

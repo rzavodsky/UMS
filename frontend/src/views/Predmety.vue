@@ -86,28 +86,33 @@ async function submit() {
 
 <template>
     <h3 class="title">Zoznam predmetov</h3>
-    <table>
-        <tr>
-            <th>Názov</th>
-            <th>Semester</th>
-            <th>Počet kreditov</th>
-            <th>Hodiny za týždeň</th>
-            <th>Info</th>
-            <th>Prihlásený</th>
-        </tr>
-        <tr v-for="subject in subjects">
-            <td>{{subject.name}}</td>
-            <td class="center">{{subject.semester}}</td>
-            <td class="center">{{subject.credits}}</td>
-            <td class="center">{{subject.lectureAmount}}-{{subject.excerciseAmount}}</td>
-            <td><RouterLink :to="`/predmet/${subject.id}`"><img class="info-icon" src="/circle-info-solid.svg"></RouterLink></td>
-            <td><input type="checkbox" :value="subject.id" v-model="signedUpIds" /></td>
-        </tr>
-    </table>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Názov</th>
+                <th>Semester</th>
+                <th>Počet kreditov</th>
+                <th>Hodiny za týždeň</th>
+                <th>Info</th>
+                <th>Prihlásený</th>
+            </tr>
+            <tr v-for="subject in subjects">
+                <td>{{subject.name}}</td>
+                <td class="center">{{subject.semester}}</td>
+                <td class="center">{{subject.credits}}</td>
+                <td class="center">{{subject.lectureAmount}}-{{subject.excerciseAmount}}</td>
+                <td><RouterLink :to="`/predmet/${subject.id}`"><img class="info-icon" src="/circle-info-solid.svg"></RouterLink></td>
+                <td><input type="checkbox" :value="subject.id" v-model="signedUpIds" /></td>
+            </tr>
+        </table>
+    </div>
     <button class="button-primary submit-button" @click="submit">Uložiť</button>
 </template>
 
 <style scoped>
+.table-container {
+    overflow-x: scroll;
+}
 .title {
     text-align: center;
     margin-bottom: 1em;

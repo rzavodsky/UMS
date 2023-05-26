@@ -69,6 +69,7 @@ header {
 
 @media only screen and (max-width: 600px) {
     main {
+        padding: 2em 1em;
         font-size: 0.8em;
         width: 100%;
         border-radius: 0;

@@ -49,6 +49,12 @@ input[type=password] {
     display: block;
     padding: 0.2em;
     margin-bottom: 0.5em;
+    border-radius: 5px;
+    border: 1px solid var(--blue-color);
+}
+form {
+    width: max-content;
+    margin-inline: auto;
 }
 
 .status {

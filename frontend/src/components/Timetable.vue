@@ -139,6 +139,7 @@ function getLessonColor(id: number): string {
 }
 
 .icon::after {
+    z-index: 10;
     position: absolute;
     bottom: -0.2em;
     padding: 0.1em 0.3em;
